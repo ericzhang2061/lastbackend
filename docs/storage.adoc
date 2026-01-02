@@ -1,0 +1,95 @@
+== Database
+
+=== Interface
+
+.Ordered Object management (object selfline should be unique per cluster)
+
+  .Info - returns object runtime info
+	.Get - returns object information from storage
+	.List - returns List of Objects
+	.Map - returns Map of objects, where key is object selflink
+	.Put - puts new object into storage
+	.Set - updates object in storage
+	.Del - deletes object from storage
+	.Watch - watches for object changes. Can watch collection, or set of collections if parent.
+	.Key - returns key created interface for selflink generation
+	.Collection - returns all collections available to perform operations
+	.Filter - returns all available filters
+
+=== Mock
+
+Mock driver is designed to perform tests without database usage. It is in-memory database with all implemeted methods.
+
+=== ETCD v3
+
+This version of Last.Backend uses ETCDv3 as default.
+
+*Storage tree*
+
+[source,generic]
+----
+/lastbackend
+
+namespace:
+/lastbackend/namespace/<namespace selflink>: <namespace object>
+
+service:
+/lastbackend/service/<service selflink>: <service object>
+
+endpoint:
+/lastbackend/endpoint/<endpoint selflink>: <endpoint object>
+
+deployment:
+/lastbackend/deployment/<deployment selflink>: <deployment object>
+
+pod:
+/lastbackend/pod/<pod selflink>: <pod object>
+
+volume:
+/lastbackend/volume/<volume selflink>: <volume object>
+
+secret:
+/lastbackend/secret/<secret selflink>: <secret object>
+
+config:
+/lastbackend/config/<config selflink>: <config object>
+
+route:
+/lastbackend/route/<route selflink>: <route object>
+
+discovery:
+/lastbackend/discovery/<discovery selflink>/info: <discovery object>
+/lastbackend/discovery/<discovery selflink>/status: <discovery status object>
+
+ingress:
+/lastbackend/ingress/<ingress selflink>/info: <ingress object>
+/lastbackend/ingress/<ingress selflink>/status: <ingress status object>
+
+cluster:
+/lastbackend/cluster/info: <cluster object>
+
+subnets:
+/lastbackend/subnet/<subnet cidr>: <subnet object>
+
+manifests:
+/lastbackend/manifests/cluster/endpoint/<endpoint selflink>: <endpoint manifest object>
+/lastbackend/manifests/cluster/subnet/<subnet cidr>: <subnet manifest object>
+
+/lastbackend/manifest/node/<node selflink>/pod/<pod selflink>: <pod manifest object>
+/lastbackend/manifest/node/<node selflink>/volume/<volume selflink>: <volume manifest object>
+
+subnets:
+/lastbackend/cluster/s/<node hostname>/meta: <subnet meta object>
+/lastbackend/cluster/snet/<node hostname>/spec: <subnet spec object>
+
+nodes:
+/lastbackend/cluster/node/<node selflink>/info: <node object>
+/lastbackend/cluster/node/<node hostname>/status: <node status object>
+
+system:
+
+/lastbackend/system
+/lastbackend/system/ipam: <IPAM state>
+/lastbackend/system/controller/<controller selflink>: <controller object>
+/lastbackend/system/controller/<controller selflink>:lead: <controller lead state>
+----

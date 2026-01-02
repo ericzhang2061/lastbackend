@@ -1,0 +1,37 @@
+kind: Service
+version: v1
+meta:
+  name: proxy
+  labels:
+    type: proxy
+    demo: test
+spec:
+  selector:
+    node:
+    labels:
+      type: "frontend"
+  replicas: 1
+  template:
+    containers:
+    - name: nginx-proxy
+      image:
+        name: nginx
+      ports:
+        - 8080
+      env:
+        - name: demo2
+          value: test
+        - name: secret
+          from:
+            name: demo
+            key: test
+      volumes:
+        - name: demo
+          path: "/usr/share/nginx/html"
+        - name: test
+          path: "/test/demo"
+    volumes:
+      - name: demo
+  network:
+    ip: 127.0.0.1
+    ports: ["80:8080/tcp"]

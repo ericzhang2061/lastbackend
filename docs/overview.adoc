@@ -1,0 +1,95 @@
+== Overview
+
+Last.Backend is an open source platform for containerized application management on all stages: from deploy to scale.
+This solution is based on container technology and fully support docker containers type.
+
+Note that project is under active development and our team is working day and night to make it better.
+Your suggestions, comments and contributions is very helpful. Big thanks for that!
+
+=== About Container platform
+
+Container platform is an open-source system for automating deployment, scaling, and management of containerized applications.
+It contains a set of technologies like: container scheduling, service discovery, overlay network, container runtime, container images runtime, load-balancing and more.
+All these technologies are provided out of the box and don't requiring additional research and setup.
+
+image:assets/structure.png[Last.Backend Structure]
+
+
+=== Platform structure:
+
+- REST API server.
+  Entrypoint for cluster management.
+
+- State controller.
+  Cluster state watcher. Performs all operation for pod creating and manage entities lifecycle.
+
+- Resources Scheduler.
+  Resources scheduler operates with cluster resources. It handles all resources utilization requests and manages entities spreading across cluster.
+
+- Node agent.
+  Node agent is process that operates with host. It creates pods, endpoint, networks, load-balancers and other entities.
+
+- Service discovery.
+  Service discovery is internal DNS server. It manages services IPs with internal domain names.
+
+- Ingress proxy.
+  Proxy server, based on self-configurable HAproxy. Manages External traffic from WEB to internal overlay network.
+
+- Log collector.
+  Log collector stores and aggregates logs from whole cluster. It can export logs to external database for additional analytic and search.
+
+- IPVS-based load-balancer.
+  Load-Balancer that provides traffic management across pods in cluster.
+
+- VxLAN-based overlay network
+  Overlay network connects all docker hosts into one big overlay network, where pods from different nodes can access each other.
+
+- Storage runtime driver
+  Driver implements persistent storage for pods. It adds ability to deploy stateful services.
+
+- Container runtime
+  Container runtime is responsible to manage containers in host. Docker runtime driver is used by default.
+
+- Container images runtime
+  Container runtime is responsible to manage container images in host. Docker container images driver is used by default.
+
+
+=== Runtimes overview
+
+Last.Backend runtime design allows us to create extendable system. We separated runtime into particular packages.
+
+By default Last.Backend is provided with these runtimes:
+
+- CRI - container runtime interface: docker by default
+- CII - container image interface: docker by default
+- CSI - container storage interface: host directory by default
+- CNI - container network interface: vxlan by default
+- CPI - container proxy interface: IPVS by default
+
+All these runtimes are documented in runtime section. where all methods, types and algorithms are described.
+
+
+=== Endpoint interface
+The main endpoint to manage cluster is REST API interface.
+Our team uses swagger as API documentation generator. To create swagger spec, just execute ``` make swagger-spec``` command in root of repository.
+
+
+You can use REST API in these options:
+
+- Directly with CURL or another apps
+- Using Last.Backend CLI located in separate repo lastbackend/cli[https://github.com/lastbackend/cli]
+- Using golang package, located in `pgk/api/client`. For building custom go apps as example.
+
+=== Current state
+
+Current version is in public beta stage and includes:
+
+- cluster management
+- node management
+- overlay network based on vxlan
+- internal endpoints for pods balancing based on IPVS
+- ingress server based on haproxy
+- internal discovery server
+- services management with basic blue/green deployments
+- volumes management
+
