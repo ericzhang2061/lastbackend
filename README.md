@@ -134,17 +134,3 @@ Join us on social media:
  - [LinkedIn](https://www.linkedin.com/company/last-backend)
  - [question@lastbackend.com](mailto:question@lastbackend.com)
 
-
-### Repository owners
-
-The repository is owned by Last.Backend LLC company.
-
-The main contributors are:
-- Alexander: https://github.com/undassa
-- Konstantin: https://github.com/unloop
-
----
-
-## License
-
-Origin is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/).
